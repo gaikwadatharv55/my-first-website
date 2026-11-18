@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ember &amp; Brine — Wood-fired seafood kitchen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#eef1ee;--surface:#fff;--ink:#14211f;--muted:#55645f;--sea:#1d4e4a;--ember:#e8a317;--line:#cfd8d3;--on-sea:#eef1ee;
+--head:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:"Instrument Sans",system-ui,sans-serif;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0e1a19;--surface:#15292700;--surface:#162826;--ink:#e9eeea;--muted:#9fb1ab;--sea:#7fc4b8;--line:#2a4440;--on-sea:#0e1a19;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#0e1a19;--surface:#162826;--ink:#e9eeea;--muted:#9fb1ab;--sea:#7fc4b8;--line:#2a4440;--on-sea:#0e1a19;color-scheme:dark}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1.0625rem/1.6 var(--body)}
+h1,h2,h3{font-family:var(--head);line-height:1.05;margin:0}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ember);outline-offset:3px}
+.wrap{max-width:1080px;margin:0 auto;padding:0 1.25rem}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav{display:flex;align-items:center;justify-content:space-between;height:64px}
+.logo{font:800 1.35rem var(--head);text-decoration:none;letter-spacing:-.02em}
+.logo span{color:var(--ember)}
+nav ul{display:flex;gap:1.5rem;list-style:none;margin:0;padding:0;align-items:center}
+nav a{text-decoration:none;font-weight:500}
+nav a:hover{text-decoration:underline;text-underline-offset:6px;text-decoration-color:var(--ember)}
+.btn{display:inline-block;background:var(--ember);color:#14211f;font:600 1rem var(--body);padding:.8rem 1.4rem;border:0;border-radius:999px;cursor:pointer;text-decoration:none}
+.btn:hover{filter:brightness(1.07)}
+nav .btn{padding:.5rem 1.1rem}
+@media(max-width:640px){nav li.hide{display:none}}
+.hero{padding:clamp(3rem,9vw,7rem) 0 clamp(2.5rem,6vw,4.5rem)}
+.hero h1{font-size:clamp(3rem,10.5vw,8rem);font-weight:800;letter-spacing:-.04em;max-width:11ch}
+.hero p{max-width:46ch;color:var(--muted);font-size:1.2rem;margin:1.5rem 0 2rem}
+.row{display:flex;flex-wrap:wrap;gap:1rem;align-items:center}
+.status{display:inline-flex;align-items:center;gap:.55rem;font-weight:500}
+.dot{width:.7rem;height:.7rem;border-radius:50%;background:#999}
+.status.open .dot{background:#2fa36b}
+.status.closed .dot{background:#d0584a}
+.band{background:var(--sea);color:var(--on-sea);padding:1.1rem 0;font:700 1.15rem var(--head);overflow:hidden;white-space:nowrap}
+.band .wrap{display:flex;gap:2.5rem;justify-content:space-between;overflow-x:auto}
+section{padding:clamp(3rem,7vw,5.5rem) 0}
+h2{font-size:clamp(2rem,5vw,3.25rem);letter-spacing:-.03em;margin-bottom:.75rem}
+.lead{color:var(--muted);max-width:52ch;margin:0 0 2rem}
+.tabs{display:flex;gap:.5rem;flex-wrap:wrap;margin-bottom:1.5rem}
+.tab{font:500 1rem var(--body);color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:.5rem 1.1rem;cursor:pointer}
+.tab[aria-selected="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.menu{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));column-gap:3rem}
+.menu li{padding:1.1rem 0;border-bottom:1px solid var(--line)}
+.menu .top{display:flex;justify-content:space-between;gap:1rem;font:700 1.25rem var(--head)}
+.menu p{margin:.25rem 0 0;color:var(--muted);font-size:1rem;max-width:44ch}
+.tag{font-size:.85rem;font-weight:600;color:var(--sea);margin-left:.5rem}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:clamp(2rem,6vw,5rem)}
+@media(max-width:800px){.split{grid-template-columns:1fr}}
+.hours{width:100%;border-collapse:collapse}
+.hours td{padding:.6rem 0;border-bottom:1px solid var(--line)}
+.hours td:last-child{text-align:right}
+.hours tr.today{font-weight:600}
+.hours tr.today td:first-child::before{content:"Today · ";color:var(--sea)}
+form{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:1.5rem;display:grid;gap:1rem}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+label{display:grid;gap:.35rem;font-weight:500;font-size:.95rem}
+input,select{font:400 1rem var(--body);padding:.7rem .8rem;border:1.5px solid var(--line);border-radius:8px;background:var(--bg);color:var(--ink);width:100%}
+input[aria-invalid="true"]{border-color:#d0584a}
+.err{color:#d0584a;font-size:.88rem;min-height:1.2em}
+.ok{background:var(--sea);color:var(--on-sea);border-radius:16px;padding:2rem}
+.ok h3{font-size:1.8rem;margin-bottom:.5rem}
+footer{border-top:1px solid var(--line);padding:2rem 0;color:var(--muted);font-size:.95rem}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+[hidden]{display:none!important}
+@media(prefers-reduced-motion:no-preference){.hero h1{animation:rise .8s ease-out both}@keyframes rise{from{opacity:0;transform:translateY(16px)}}}
+</style>
+</head>
+<body>
+<header><div class="wrap"><nav aria-label="Main">
+<a class="logo" href="#top">Ember<span>&amp;</span>Brine</a>
+<ul><li class="hide"><a href="#menu">Menu</a></li><li class="hide"><a href="#visit">Visit</a></li><li><a class="btn" href="#book">Book a table</a></li></ul>
+</nav></div></header>
+
+<main id="top">
+<div class="wrap hero">
+<h1>Fire, salt, and the day’s catch.</h1>
+<p>A small wood-fired kitchen serving fish, shellfish and vegetables cooked over open flame. The menu changes with the boats.</p>
+<div class="row"><a class="btn" href="#book">Reserve a table</a><span class="status" id="status" aria-live="polite"><span class="dot"></span><span id="statusText">Checking hours…</span></span></div>
+</div>
+<div class="band" aria-hidden="true"><div class="wrap"><span>Wood-fired</span><span>Line-caught</span><span>Seasonal</span><span>Open Tue–Sun</span></div></div>
+
+<section id="menu"><div class="wrap">
+<h2>The menu</h2>
+<p class="lead">Short on purpose. Everything is made to order, so dishes arrive when they’re ready.</p>
+<div class="tabs" role="tablist" id="tabs" aria-label="Menu categories"></div>
+<ul class="menu" id="menuList"></ul>
+</div></section>
+
+<section id="visit" style="background:var(--surface)"><div class="wrap split">
+<div>
+<h2>Visit us</h2>
+<p class="lead">14 Harbour Lane, by the old fish market. Walk-ins are welcome at the bar; tables are best booked ahead.</p>
+<p>Call <a href="tel:+10000000000">+1 000 000 0000</a><br>Email <a href="mailto:hello@emberandbrine.example">hello@emberandbrine.example</a></p>
+</div>
+<div>
+<table class="hours" id="hours"><caption class="lead" style="text-align:left;caption-side:top">Opening hours</caption><tbody></tbody></table>
+</div>
+</div></section>
+
+<section id="book"><div class="wrap split">
+<div>
+<h2>Book a table</h2>
+<p class="lead">Tell us when you’re coming and how many. We’ll confirm by email within the hour during opening times.</p>
+</div>
+<div>
+<form id="form" novalidate>
+<label>Name<input id="name" autocomplete="name" required><span class="err" id="e-name"></span></label>
+<label>Email<input id="email" type="email" autocomplete="email" required><span class="err" id="e-email"></span></label>
+<div class="f2">
+<label>Date<input id="date" type="date" required><span class="err" id="e-date"></span></label>
+<label>Time<select id="time"></select></label>
+</div>
+<label>Guests<select id="guests"></select></label>
+<button class="btn" type="submit">Request booking</button>
+</form>
+<div class="ok" id="ok" hidden role="status"><h3>Request sent</h3><p id="okText"></p><button class="btn" id="again" type="button">Make another booking</button></div>
+</div>
+</div></section>
+</main>
+
+<footer><div class="wrap"><span>© 2026 Ember &amp; Brine</span><span>Please tell us about allergies when you book.</span></div></footer>
+
+<script>
+const MENU={
+Starters:[["Charred octopus","Smoked paprika, white beans, lemon oil",14,""],["Oysters on embers","Six, brown butter and chive",18,""],["Burnt leek","Hazelnut romesco, sourdough crumb",11,"V"],["Grilled sardines","Toasted bread, tomato, capers",12,""]],
+Mains:[["Whole sea bream","Wood-grilled, fennel, salsa verde",34,""],["Seafood stew","Mussels, prawns, cod, saffron broth",29,""],["Coal-roasted cauliflower","Tahini, pomegranate, dill",22,"V"],["Ember-seared tuna","Black garlic, pickled radish, rice",32,""]],
+Desserts:[["Burnt honey tart","Crème fraîche, sea salt",9,"V"],["Smoked chocolate pot","Olive oil, flaky salt",9,"V"],["Seasonal sorbet","Ask your server for today’s flavour",7,"V"]],
+Drinks:[["House lemonade","Mint, sparkling water",5,"V"],["Cold-brew tonic","Coffee, tonic, orange peel",6,"V"],["Crisp white, glass","Dry, coastal, mineral",9,""],["Local lager","Draught, 330 ml",6,""]]};
+const HOURS=[null,[12,23],[12,23],[12,23],[12,23],[12,24],[12,24]];HOURS.unshift([12,22]); // index 0=Sun ... 6=Sat; Mon fixed below
+HOURS[1]=null;
+const DAYS=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+const $=id=>document.getElementById(id);
+const fmt=h=>{h=h%24;const s=h<12?"am":"pm";return((h%12)||12)+s};
+
+// Menu tabs
+const tabs=$("tabs"),list=$("menuList");
+Object.keys(MENU).forEach((c,i)=>{const b=document.createElement("button");b.className="tab";b.role="tab";b.textContent=c;b.setAttribute("aria-selected",i===0);b.onclick=()=>show(c);tabs.appendChild(b)});
+function show(c){[...tabs.children].forEach(b=>b.setAttribute("aria-selected",b.textContent===c));
+list.innerHTML=MENU[c].map(([n,d,p,t])=>`<li><div class="top"><span>${n}${t?`<span class="tag">${t==="V"?"Vegetarian":t}</span>`:""}</span><span>$${p}</span></div><p>${d}</p></li>`).join("")}
+show("Starters");
+
+// Hours table + live status
+const tb=$("hours").querySelector("tbody"),now=new Date(),today=now.getDay();
+tb.innerHTML=[1,2,3,4,5,6,0].map(d=>{const h=HOURS[d];return`<tr class="${d===today?"today":""}"><td>${DAYS[d]}</td><td>${h?fmt(h[0])+" – "+fmt(h[1]):"Closed"}</td></tr>`}).join("");
+(function(){const h=HOURS[today],t=now.getHours()+now.getMinutes()/60,el=$("status"),tx=$("statusText");
+if(h&&t>=h[0]&&t<h[1]){el.className="status open";tx.textContent="Open now, until "+fmt(h[1])}
+else{el.className="status closed";let n=1;while(!HOURS[(today+n)%7])n++;const d=(h&&t<h[0])?"today":(n===1?"tomorrow":DAYS[(today+n)%7]);tx.textContent="Closed now, opens "+d+" at "+fmt(HOURS[(h&&t<h[0])?today:(today+n)%7][0])}})();
+
+// Booking form
+const time=$("time"),guests=$("guests"),date=$("date");
+for(let h=12;h<22;h++)["00","30"].forEach(m=>time.add(new Option(`${fmt(h).replace(/(am|pm)/," $1")}`.replace(" ",":"+m+" "),`${h}:${m}`)));
+for(let i=1;i<=8;i++)guests.add(new Option(i+(i===1?" guest":" guests"),i));
+guests.value=2;
+const iso=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+date.min=iso(now);
+function bad(id,msg){$("e-"+id).textContent=msg;$(id).setAttribute("aria-invalid",!!msg);return!msg}
+$("form").addEventListener("submit",e=>{e.preventDefault();
+let ok=true;
+ok&=bad("name",$("name").value.trim()?"":"Enter your name.");
+ok&=bad("email",/^\S+@\S+\.\S+$/.test($("email").value)?"":"Enter a valid email, like name@example.com.");
+let m="";if(!date.value)m="Choose a date.";else{const d=new Date(date.value+"T00:00");if(d<new Date(iso(now)+"T00:00"))m="Choose today or a later date.";else if(!HOURS[d.getDay()])m="We’re closed on Mondays. Choose another day."}
+ok&=bad("date",m);
+if(!ok)return;
+const d=new Date(date.value+"T00:00");
+$("okText").textContent=`Thanks, ${$("name").value.trim().split(" ")[0]}. We’ve noted ${guests.value} ${guests.value==1?"guest":"guests"} on ${DAYS[d.getDay()]}, ${d.toLocaleDateString(undefined,{day:"numeric",month:"long"})} at ${time.selectedOptions[0].text}. A confirmation will go to ${$("email").value}.`;
+$("form").hidden=true;$("ok").hidden=false;$("ok").scrollIntoView({block:"center"})});
+$("again").onclick=()=>{$("form").reset();guests.value=2;$("ok").hidden=true;$("form").hidden=false};
+</script>
+</body>
+</html>
